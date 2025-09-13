@@ -51,11 +51,11 @@ class _EditRecipeState extends State<EditRecipe> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
 
-                // Call the updateRecipe method
+                // Call the updateRecipe method with correct parameters
                 providers.updateRecipe(
-                  '', // Recipe ID
+                  widget.recipe.id, // USE THE ACTUAL RECIPE ID!
                   _title,
-                  [], // cuisineId
+                  _cuisineId, // USE THE ACTUAL CUISINE IDs!
                   int.parse(_difficulty),
                   _ingredients,
                   _steps,
@@ -93,7 +93,14 @@ class _EditRecipeState extends State<EditRecipe> {
               ),
               TextFormField(
                 initialValue: _cuisineId.join(', '),
-                decoration: InputDecoration(),
+                decoration: InputDecoration(labelText: 'Cuisine IDs (comma separated)'),
+                onSaved: (value) {
+                  _cuisineId = value!
+                      .split(',')
+                      .map((e) => e.trim())
+                      .where((e) => e.isNotEmpty)
+                      .toList();
+                },
               ),
               TextFormField(
                 initialValue: _difficulty,
@@ -115,7 +122,7 @@ class _EditRecipeState extends State<EditRecipe> {
               ),
               TextFormField(
                 initialValue: _ingredients.join(', '),
-                decoration: InputDecoration(labelText: 'Ingredients: '),
+                decoration: InputDecoration(labelText: 'Ingredients (comma separated)'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter ingredients';
@@ -153,7 +160,7 @@ class _EditRecipeState extends State<EditRecipe> {
                 },
               ),
               SwitchListTile(
-                title: Text('Vegeterian'),
+                title: Text('Vegetarian'),
                 value: isVegeterian,
                 onChanged: (val) {
                   setState(() {

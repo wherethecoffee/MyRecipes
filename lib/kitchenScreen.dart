@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_recipes/recipe.dart';
 import 'package:provider/provider.dart';
 import 'package:my_recipes/cuisine.dart';
 import 'recipeCard.dart';
@@ -61,7 +62,18 @@ class _KitchenScreenState extends State<KitchenScreen> {
         onPressed: () {
           Navigator.of(
             context,
-          ).push(MaterialPageRoute(builder: (ctx) => AddRecipe()));
+          ).push(MaterialPageRoute(builder: (ctx) => AddRecipe(recipe: Recipe(
+            id: '',
+            title: '',
+            cuisineId: [],
+            difficulty: 1,
+            ingredients: [],
+            steps: '',
+            isVegan: false,
+            isVegeterian: false,
+            imageURL: '',
+            isFavorite: false,
+          ),)));
         },
         icon: Icon(Icons.add),
         label: Text("Add New Recipe"),

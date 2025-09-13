@@ -1,9 +1,11 @@
+import 'package:my_recipes/recipe.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_recipes/providers.dart';
 
 class AddRecipe extends StatefulWidget {
-  const AddRecipe({super.key});
+  final Recipe recipe;
+  const AddRecipe({super.key, required this.recipe});
 
   @override
   State<AddRecipe> createState() => _AddRecipeState();
@@ -12,6 +14,7 @@ class AddRecipe extends StatefulWidget {
 class _AddRecipeState extends State<AddRecipe> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
+  List<String> get _cuisineIdController => widget.recipe.cuisineId;
   final difficultyController = TextEditingController();
   final ingredientsController = TextEditingController();
   final stepsController = TextEditingController();
@@ -35,9 +38,9 @@ class _AddRecipeState extends State<AddRecipe> {
 
                 // Add the new Recipe (recipe)
                 providers.addRecipe(
-                  UniqueKey().toString(),
+                  widget.recipe.id,
                   _titleController.text,
-                  [], // Empty cuisineId list for now
+                  _cuisineIdController, // Empty cuisineId list for now
                   int.parse(difficultyController.text),
                   ingredientsController.text.split(','),
                   stepsController.text,
